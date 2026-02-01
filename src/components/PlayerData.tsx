@@ -1,11 +1,9 @@
-interface Player {
-  // isBanned: boolean;
-  // externalAppDisplayName: string | null;
-  hasVerifiedBadge: boolean;
-  name: string;
-  displayName: string;
-  img: string;
-  id: string;
+export interface Player {
+  hasVerifiedBadge?: boolean;
+  name?: string;
+  displayName?: string;
+  img?: string;
+  id?: string;
 }
 const PlayerData = ({
   id,
