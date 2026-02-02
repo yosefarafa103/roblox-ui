@@ -1,11 +1,11 @@
-import { Crown, Diamond } from "lucide-react";
+import { Crown,  } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Suspense, useCallback } from "react";
 import { usePackages } from "../context/PackagesContext";
 import Counter from "./Counter";
 import { Loader } from "./SearchAccount";
 interface Props {
-  coins: number;
+  coins: string;
   id: number;
   isActive?: boolean;
   img: string;
@@ -13,25 +13,25 @@ interface Props {
 export const coins: Props[] = [
   {
     id: 1,
-    coins: 400,
+    coins: "400",
     isActive: false,
     img: "https://ffxmodz.com/20260127_143450.png",
   },
   {
     id: 2,
-    coins: 800,
+    coins: "800",
     isActive: false,
     img: "https://ffxmodz.com/20260127_143043.png",
   },
   {
     id: 3,
-    coins: 2000,
+    coins: "2,000",
     isActive: false,
     img: "https://ffxmodz.com/file_000000002e5c722f8b350ce259c47906.png",
   },
   {
     id: 4,
-    coins: 10_000,
+    coins: "10,000",
     isActive: true,
     img: "https://ffxmodz.com/file_00000000e3dc722f8f16f5c50ee5b5e4.png",
   },
@@ -99,11 +99,8 @@ export function PackageGame({ coins, isActive = false, id, img }: Props) {
         className="z-100 transition duration-300 group-hover:grayscale-100 object-cover rounded-lg mx-auto my-10"
         alt=""
       />
-      <div className="my-2 mx-auto text-blue-400 text-2xl flex justify-center gap-2 items-center font-bold">
-        {coins} <Diamond size={40} fill="#cce9fa" />
-      </div>
       <div className="my-2 mx-auto text-blue-400 text-lg flex justify-center gap-2 items-center font-bold">
-        Roblux
+        {coins} RBX
       </div>
     </div>
   );

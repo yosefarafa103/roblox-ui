@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import daimond from "@/assets/imgs/ice 1-CK2a3yVT.webp";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -8,14 +8,24 @@ import { PlayerDataProvider } from "@/context/PlayerDataContext";
 import { Loader } from "./SearchAccount";
 import { usePackages } from "@/context/PackagesContext";
 import { coins } from "./AppPage";
+import audio from "@/assets/audio/mixkit-glass-hitting-a-metal-2183.wav";
 const ActionUI = lazy(() => import("./ActionUI"));
 const Counter = () => {
   const [count, setCount] = useState(50);
   const [fade] = useState(false);
+  const ref = useRef<HTMLAudioElement | null>(null);
   const { currentPackage } = usePackages();
+  const [isDelaying, setIsDelaying] = useState(false);
   const handleDecrease = () => {
-    if (count > 0) setCount(count - 1);
-    return count;
+    if (isDelaying) return;
+
+    setIsDelaying(true);
+    ref.current?.play();
+
+    setTimeout(() => {
+      setCount((prev) => prev - 1);
+      setIsDelaying(false);
+    }, 500);
   };
   const queryClient = new QueryClient();
   return (
@@ -32,6 +42,7 @@ const Counter = () => {
         </QueryClientProvider>
       ) : (
         <>
+          <audio ref={ref} src={audio} />
           <h3 className="text-red-500 font-bold text-center select-none">
             Complete 50 clicks to continue
           </h3>
@@ -39,12 +50,13 @@ const Counter = () => {
             onClick={handleDecrease}
             className={cn(
               "max-h-svh flex flex-col items-center justify-center select-none mt-40",
+              isDelaying ? "pointer-events-none" : "pointer-events-auto",
             )}
           >
             <h1
               className={cn(
                 fade ? "animate-fade" : "",
-                "text-4xl animate-fade text-red-600",
+                "text-[50px] animate-fade text-red-600",
                 "mb-10 font-bold",
               )}
             >
