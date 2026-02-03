@@ -1,4 +1,4 @@
-import { Crown,  } from "lucide-react";
+import { Crown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Suspense, useCallback } from "react";
 import { usePackages } from "../context/PackagesContext";
@@ -39,7 +39,7 @@ export const coins: Props[] = [
 const AppPage = () => {
   const { currentPackage } = usePackages();
   return (
-    <section className="overflow-hidden relative">
+    <section className="relative">
       {currentPackage ? (
         <Suspense fallback={<Loader />}>
           <Counter />
@@ -60,7 +60,7 @@ const AppPage = () => {
           <h3 className="text-blue-500 mb-8 font-bold uppercase italic tracking-wide text-center">
             Choose the Roblox package
           </h3>
-          <section className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center min-w-sm lg:w-1/2 mx-auto">
+          <section className="grid max-sm:grid-cols-2 md:grid-cols-4 gap-6 lg:w-1/2 mx-auto">
             {coins.map((item) => (
               <PackageGame {...item} />
             ))}
@@ -82,24 +82,24 @@ export function PackageGame({ coins, isActive = false, id, img }: Props) {
     <div
       onClick={handelFn}
       className={cn(
-        "px-4 rounded-lg bg-white text-blue-400 cursor-pointer group border-blue-500 border-4 max-w-[250px]",
+        "px-4 rounded-lg bg-white cursor-pointer group border-black border-4 max-w-[250px]",
         isActive ? "border-[#ffd700]" : "",
         "hover:-translate-y-1.5 relative transition duration-300",
       )}
     >
       {isActive ? (
-        <div className="bg-[#ffd700] absolute top-3 left-3 size-12.5 flex items-center justify-center rounded-full z-100">
-          <Crown fill="white" />
+        <div className="bg-[#ffd700] border border-black absolute top-3 left-3 size-8 flex items-center justify-center rounded-full z-100">
+          <Crown size={20} fill="white" />
         </div>
       ) : (
         ""
       )}
       <img
         src={img}
-        className="z-100 transition duration-300 group-hover:grayscale-100 object-cover rounded-lg mx-auto my-10"
+        className="z-100 transition duration-300 group-hover:grayscale-100 object-cover rounded-lg mx-auto my-5"
         alt=""
       />
-      <div className="my-2 mx-auto text-blue-400 text-lg flex justify-center gap-2 items-center font-bold">
+      <div className="my-2 mx-auto text-lg flex justify-center gap-2 items-center font-bold">
         {coins} RBX
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import daimond from "@/assets/imgs/ice 1-CK2a3yVT.webp";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -8,7 +8,7 @@ import { PlayerDataProvider } from "@/context/PlayerDataContext";
 import { Loader } from "./SearchAccount";
 import { usePackages } from "@/context/PackagesContext";
 import { coins } from "./AppPage";
-import audio from "@/assets/audio/mixkit-glass-hitting-a-metal-2183.wav";
+import audio from "@/assets/audio/glass-breaking-99389.mp3";
 const ActionUI = lazy(() => import("./ActionUI"));
 const Counter = () => {
   const [count, setCount] = useState(50);
@@ -18,15 +18,16 @@ const Counter = () => {
   const [isDelaying, setIsDelaying] = useState(false);
   const handleDecrease = () => {
     if (isDelaying) return;
-
     setIsDelaying(true);
-    ref.current?.play();
-
     setTimeout(() => {
       setCount((prev) => prev - 1);
       setIsDelaying(false);
-    }, 500);
+    }, 0);
   };
+
+  useEffect(() => {
+    ref.current?.play();
+  }, [count]);
   const queryClient = new QueryClient();
   return (
     <>
@@ -57,20 +58,25 @@ const Counter = () => {
               className={cn(
                 fade ? "animate-fade" : "",
                 "text-[50px] animate-fade text-red-600",
-                "mb-10 font-bold",
+                "mb-4 font-bold",
               )}
             >
               {count}
             </h1>
-
-            <div className="flex relative items-center justify-center">
+            <span className="text-gray-600 mb-4 uppercase font-bold text-xs">
+              Tap the ice to release your card!
+            </span>
+            <motion.div
+              whileTap={{ scale: 1.1 }}
+              className="flex relative items-center justify-center"
+            >
               <img
                 src={coins[currentPackage - 1].img}
                 className="absolute scale-[0.4] z-100"
                 alt=""
               />
-              <motion.img whileTap={{ scale: 1.02 }} src={daimond} alt="" />
-            </div>
+              <img src={daimond} alt="" />
+            </motion.div>
           </div>
         </>
       )}
