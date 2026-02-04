@@ -84,21 +84,19 @@ const ActionUI = () => {
             </p>
             <DialogTrigger ref={dialogRef} />
             <DialogContent>
-              {
-                <InformationDialog
-                  setCurrentStep={setCurrentStep}
-                  img={playerData?.avatarImg}
-                  displayName={player?.displayName}
-                  hasVerifiedBadge={player?.hasVerifiedBadge}
-                  name={player?.name}
-                  id={player?.id}
-                  joined={
-                    player?.created
-                      ? formatDate(new Date(player.created))
-                      : undefined
-                  }
-                />
-              }
+              <InformationDialog
+                setCurrentStep={setCurrentStep}
+                img={playerData?.avatarImg}
+                displayName={player?.displayName}
+                hasVerifiedBadge={player?.hasVerifiedBadge}
+                name={player?.name}
+                id={player?.id}
+                joined={
+                  player?.created
+                    ? formatDate(new Date(player.created))
+                    : undefined
+                }
+              />
             </DialogContent>
           </div>
         </Dialog>

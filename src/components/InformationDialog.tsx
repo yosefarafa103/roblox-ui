@@ -1,5 +1,9 @@
+import { useQueryClient } from "@tanstack/react-query";
 import type { Player } from "./PlayerData";
 import { DialogClose } from "./ui/dialog";
+import { useContext } from "react";
+import { InputContext } from "@/context/InputProvider";
+import { usePlayerData } from "@/context/PlayerDataContext";
 interface Props {
   joined?: string;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
@@ -12,6 +16,10 @@ const InformationDialog = ({
   setCurrentStep,
   joined,
 }: Props & Player) => {
+  const queryClient = useQueryClient();
+  const ctx = useContext(InputContext);
+  const playerCtx = usePlayerData();
+
   return (
     <>
       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full text-center relative shadow-2xl mx-auto">
@@ -23,7 +31,6 @@ const InformationDialog = ({
           alt="Avatar"
           className="w-24 h-24 mx-auto rounded-full border-4 border-slate-700 mb-4 shadow-lg"
         />
-
         <div className="space-y-1 mb-6">
           <p id="modal-displayname" className="text-xl font-bold text-white">
             {displayName || "mokrim2017"}
@@ -44,7 +51,11 @@ const InformationDialog = ({
 
         <div className="grid grid-cols-2 gap-3">
           <DialogClose
-            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
+            onClick={() => {
+              setCurrentStep(1);
+              queryClient.removeQueries({ queryKey: [`user`, ctx?.value] });
+              playerCtx.setPlayerData(null);
+            }}
             className="py-3 px-4 rounded-xl font-semibold text-slate-300 bg-slate-700 hover:bg-slate-600 transition-colors"
           >
             No, Cancel

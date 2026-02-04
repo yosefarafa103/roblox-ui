@@ -17,10 +17,10 @@ export default function SearchAccount({
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["user", ctx?.value],
     enabled: false,
-    retryDelay: 1000,
     queryFn: async () => {
       const value = ctx?.value?.trim();
-      if (!value) return null;
+      if (!value) throw new Error("Empty value");
+
       const isId = /^\d+$/.test(value);
       const url = isId
         ? `https://roblox-server-1111.vercel.app?id=${value}`
@@ -31,19 +31,16 @@ export default function SearchAccount({
       return res.json();
     },
   });
-
   useEffect(() => {
-    if (!data?.data) return;
-    if (!playerCtx.playerData) {
-      setCurrentStep((prev) => prev + 1);
+    if (!data?.data || playerCtx.playerData) return;
 
-      playerCtx.setPlayerData({
-        data: data.data,
-        avatarImg: data?.avatarImg?.data?.[0]?.imageUrl || "",
-      });
-    }
-  }, [data]);
+    setCurrentStep(2);
 
+    playerCtx.setPlayerData({
+      data: data.data,
+      avatarImg: data?.avatarImg?.data?.[0]?.imageUrl || "",
+    });
+  }, [data, playerCtx.playerData]);
   return (
     <>
       <div className="bg-gray-800 p-4 text-white">
@@ -70,7 +67,7 @@ export default function SearchAccount({
             </div>
             <Button
               variant="sky"
-              disabled={isLoading || !ctx?.value}
+              disabled={isLoading || !ctx?.value.length}
               onClick={() => {
                 refetch();
               }}

@@ -24,7 +24,6 @@ const Counter = () => {
       setIsDelaying(false);
     }, 0);
   };
-
   useEffect(() => {
     ref.current?.play();
   }, [count]);
@@ -72,7 +71,7 @@ const Counter = () => {
             >
               <img
                 src={coins[currentPackage - 1].img}
-                className="absolute scale-[0.4] z-100"
+                className="absolute scale-[0.4] z-100 opacity-50"
                 alt=""
               />
               <img src={daimond} alt="" />
